@@ -1,0 +1,32 @@
+.nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	position: fixed;
+	top: 0rem;
+	left: 0rem;
+	z-index: 999;
+
+	width: 100%;
+	height: auto;
+	padding: 1.2rem 3rem;
+
+	background-color: var(--clr-blue-100);
+
+	&-list {
+		display: flex;
+		align-items: center;
+		justify-content: space-evenly;
+		gap: 2rem;
+
+		list-style: none;
+	}
+	&-icon {
+		color: var(--clr-white-100);
+
+		&:hover {
+			color: var(--clr-blue-20);
+		}
+	}
+}

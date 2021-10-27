@@ -1,0 +1,35 @@
+.form {
+	display: grid;
+	gap: 1.6rem;
+
+	&-group {
+		display: grid;
+		gap: 0.8rem;
+
+		position: relative;
+	}
+	&-control {
+		width: 100%;
+		padding: 0.8rem 1.2rem;
+
+		border: 0.1rem solid var(--clr-blue-100);
+		border-radius: 0.6rem;
+
+		&.prefixed {
+			padding: 0.8rem 1.2rem 0.8rem calc(3rem + 0.4rem);
+		}
+	}
+}
+
+.prefixed-icon {
+	position: absolute;
+	left: 0.8rem;
+	bottom: 1rem;
+
+	&:not(.show) {
+		display: none;
+	}
+	i {
+		color: var(--clr-black-50);
+	}
+}
