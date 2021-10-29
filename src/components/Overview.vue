@@ -5,7 +5,7 @@
 				<div class="col-12">
 					<div class="button-group pad-t-2 pad-l-1">
 						<Button
-							:options="{ ...addRowButtonOptions }"
+							:options="addRowButtonOptions"
 							:handler="addRowHandler"
 							:classes="['button-lg']"
 							:text="'Add a Row'"
@@ -16,8 +16,8 @@
 			</div>
 			<!-- Card Row -->
 			<div class="card-rows">
-				<div v-for="rowData in allCardsData" :key="rowData.key">
-					<Row :data="rowData" />
+				<div v-for="(row, index) in getRows" :key="row.id">
+					<Row :row="row" :rowIndex="index" />
 				</div>
 			</div>
 		</div>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import Button from "./UI/Buttons/Button.vue";
 import Row from "./Rows/Row.vue";
 export default {
@@ -36,20 +37,17 @@ export default {
 				hasIcon: true,
 				hasText: true,
 			},
-			allCardsData: [],
 		};
 	},
-	mounted() {
-		this.allCardsData = this.$store.getters.getAllCardsData;
-	},
-	props: {},
 	components: {
 		Row,
 		Button,
 	},
+	computed: mapGetters(["getRows"]),
 	methods: {
+		...mapActions(["createNewRow"]),
 		addRowHandler() {
-			console.log(this.allCardsData);
+			this.createNewRow();
 		},
 	},
 };

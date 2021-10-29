@@ -36,7 +36,10 @@ export default {
 
 	border: none;
 	border-radius: 0.6rem;
-
+	&:disabled {
+		pointer-events: none;
+		filter: saturate(0);
+	}
 	&-lg {
 		padding: 1.25rem 1.75rem;
 

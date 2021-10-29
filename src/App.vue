@@ -6,7 +6,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import Navbar from "./components/UI/Navbar/Navbar";
+
 export default {
 	name: "App",
 	data() {
@@ -14,7 +16,11 @@ export default {
 	},
 	props: {},
 	components: { Navbar },
-	methods: {},
+	methods: { ...mapActions(["getAllData"]) },
+	mounted() {},
+	created() {
+		this.getAllData();
+	},
 };
 </script>
 
