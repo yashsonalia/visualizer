@@ -24,7 +24,7 @@
           "cid": "9a698d31-107b-4384-b745-ff4444475b73"
         },
         {
-          "title": "Dengue",
+          "title": "Malaria",
           "chartType": "Pie Chart",
           "filters": [],
           "otherData": {},
@@ -33,6 +33,40 @@
         }
       ],
       "id": 2
+    },
+    {
+      "cards": [
+        {
+          "title": "",
+          "chartType": "",
+          "filters": [],
+          "otherData": {},
+          "isNewCard": true,
+          "cid": "92bbfe91-e1d3-4ef6-8179-22459dfed794"
+        },
+        {
+          "title": "",
+          "chartType": "",
+          "filters": [],
+          "otherData": {},
+          "isNewCard": true,
+          "cid": "f76914fe-8fe1-4c49-8b57-5049556a7882"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "cards": [
+        {
+          "title": "",
+          "chartType": "",
+          "filters": [],
+          "otherData": {},
+          "isNewCard": true,
+          "cid": "dfe7b7b1-eb32-49b6-ae8f-f3f025b063d0"
+        }
+      ],
+      "id": 4
     }
   ]
 }

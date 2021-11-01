@@ -50,9 +50,7 @@ export default new Vuex.Store({
 			}
 		},
 
-		async addCardToRow({ commit }, row) {
-			const { id, cards } = row;
-
+		async addCardToRow({ commit }, { id, cards }) {
 			cards.push({
 				title: "",
 				chartType: "",
@@ -81,15 +79,14 @@ export default new Vuex.Store({
 			}
 		},
 
-		async deleteCard({ commit }, values) {
-			const { index, rowId, rowIndex } = values;
+		async deleteCard({ commit }, { index, rowId, rowIndex }) {
 			const cards = [...this.state.rows[rowIndex].cards];
 
 			cards.splice(index, 1);
 
 			try {
 				await axios.patch(`api/rows/${+rowId}`, { cards });
-				commit("removeFromRow", { rowIndex, index });
+				commit("removeCardFromRow", { rowIndex, index });
 			} catch (error) {
 				console.error(error);
 			}
@@ -125,14 +122,11 @@ export default new Vuex.Store({
 			if (index !== -1) state.rows.splice(index, 1, data);
 		},
 
-		setUpdatedCardData: (state, { rowIndex, cardIndex, card }) => {
-			state.rows[rowIndex].cards[cardIndex] = card;
-		},
+		setUpdatedCardData: (state, { rowIndex, cardIndex, card }) =>
+			(state.rows[rowIndex].cards[cardIndex] = card),
 
-		removeFromRow(state, payload) {
-			const { rowIndex, index } = payload;
-			state.rows[rowIndex].cards.splice(index, 1);
-		},
+		removeCardFromRow: (state, { rowIndex, index }) =>
+			state.rows[rowIndex].cards.splice(index, 1),
 	},
 	modules: {},
 });

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vue-cli-service serve --port 8080",
+    "start": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "dev-server": "json-server db.json --port 3000"
   },
