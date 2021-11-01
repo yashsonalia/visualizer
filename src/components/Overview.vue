@@ -17,7 +17,13 @@
 			<!-- Card Row -->
 			<div class="card-rows">
 				<div v-for="(row, index) in getRows" :key="row.id">
-					<Row :row="row" :rowIndex="index" />
+					<Row
+						:row="row"
+						:rowIndex="index"
+						@edit-card-details="
+							(cardIndices) => $emit('edit-card-details', cardIndices)
+						"
+					/>
 				</div>
 			</div>
 		</div>

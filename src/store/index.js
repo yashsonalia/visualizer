@@ -3,13 +3,18 @@ import Vuex from "vuex";
 import axios from "axios";
 
 Vue.use(Vuex);
-
+import { v4 as uuidGen } from "uuid";
 export default new Vuex.Store({
 	state: {
 		rows: [],
+		chartTypes: ["Bar Chart", "Area Graph", "Pie Chart"],
 	},
 	getters: {
 		getRows: (state) => state.rows,
+		getRow: (state) => (id) => state.rows.find((row) => row.id === id),
+		getCard: (state) => (rowIndex, cardIndex) =>
+			state.rows[rowIndex].cards[cardIndex],
+		getChartTypes: (state) => state.chartTypes,
 	},
 	actions: {
 		async getAllData({ commit }) {
@@ -33,6 +38,7 @@ export default new Vuex.Store({
 							filters: [],
 							otherData: {},
 							isNewCard: true,
+							cid: uuidGen(),
 						},
 					],
 				});
@@ -46,19 +52,21 @@ export default new Vuex.Store({
 
 		async addCardToRow({ commit }, row) {
 			const { id, cards } = row;
+
 			cards.push({
 				title: "",
 				chartType: "",
 				filters: [],
 				otherData: {},
 				isNewCard: true,
+				cid: uuidGen(),
 			});
 
 			try {
 				const response = await axios.put(`/api/rows/${+id}`, { cards });
 
 				const data = response.data;
-				commit("updateRow", data);
+				commit("setUpdatedRow", data);
 			} catch (error) {
 				console.error(error);
 			}
@@ -74,13 +82,30 @@ export default new Vuex.Store({
 		},
 
 		async deleteCard({ commit }, values) {
-			const { cardIndex, rowId, rowIndex } = values;
-
+			const { index, rowId, rowIndex } = values;
 			const cards = [...this.state.rows[rowIndex].cards];
-			cards.splice(cardIndex, 1);
+
+			cards.splice(index, 1);
+
 			try {
 				await axios.patch(`api/rows/${+rowId}`, { cards });
-				commit("removeFromRow", { rowIndex, cardIndex });
+				commit("removeFromRow", { rowIndex, index });
+			} catch (error) {
+				console.error(error);
+			}
+		},
+
+		async updateCardData({ commit }, data) {
+			const { rowIndex, cardIndex } = data.indices;
+			const { card } = data;
+			const row = this.state.rows[rowIndex];
+			row.cards[cardIndex] = card;
+
+			try {
+				const response = await axios.patch(`api/rows/${+row.id}`, {
+					cards: row.cards,
+				});
+				commit("setUpdatedCardData", { rowIndex, cardIndex, card });
 			} catch (error) {
 				console.error(error);
 			}
@@ -95,14 +120,18 @@ export default new Vuex.Store({
 		removeRow: (state, id) =>
 			(state.rows = state.rows.filter((card) => card.id !== id)),
 
-		updateRow: (state, data) => {
+		setUpdatedRow: (state, data) => {
 			const index = state.rows.findIndex((row) => row.id === data.id);
 			if (index !== -1) state.rows.splice(index, 1, data);
 		},
 
+		setUpdatedCardData: (state, { rowIndex, cardIndex, card }) => {
+			state.rows[rowIndex].cards[cardIndex] = card;
+		},
+
 		removeFromRow(state, payload) {
-			const { rowIndex, cardIndex } = payload;
-			state.rows[rowIndex].cards.splice(cardIndex, 1);
+			const { rowIndex, index } = payload;
+			state.rows[rowIndex].cards.splice(index, 1);
 		},
 	},
 	modules: {},

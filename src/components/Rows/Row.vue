@@ -1,19 +1,25 @@
 <template>
 	<div class="new-row row mar-l-1 mar-r-6 mar-b-2">
-		<div class="col row-card" v-for="(card, index) in cards" :key="index">
+		<div class="col row-card" v-for="(card, index) in cards" :key="card.cid">
 			<Card
 				:cardData="{
 					...card,
-					cardIndex: index,
+					index,
 					rowId: id,
 					rowIndex,
-					rowLength: cards.length,
 				}"
+				@edit-card-details="
+					(cardIndices) => $emit('edit-card-details', cardIndices)
+				"
 			/>
 		</div>
 		<div class="row-options">
 			<Button
-				:options="buttonSmOptions"
+				:options="{
+					hasHandler: true,
+					hasIcon: true,
+					hasText: false,
+				}"
 				:handler="() => addCardToRow(row)"
 				:classes="['button-sm', 'button-success']"
 				:text="''"
@@ -22,7 +28,11 @@
 			/>
 
 			<Button
-				:options="{ ...buttonSmOptions }"
+				:options="{
+					hasHandler: true,
+					hasIcon: true,
+					hasText: false,
+				}"
 				:handler="() => deleteRow(id)"
 				:classes="['button-sm', 'button-danger']"
 				:text="''"
@@ -58,7 +68,9 @@ export default {
 		Button,
 		Card,
 	},
-	methods: mapActions(["deleteRow", "addCardToRow"]),
+	methods: {
+		...mapActions(["deleteRow", "addCardToRow"]),
+	},
 	created() {
 		this.cards = this.row.cards;
 		this.id = this.row.id;
@@ -92,8 +104,6 @@ export default {
 	&-card {
 		overflow: hidden;
 		position: relative;
-
-		padding: 2rem 4rem;
 
 		/* background-color: var(--clr-white-100); */
 		background-color: inherit;

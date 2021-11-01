@@ -1,9 +1,19 @@
 <template>
 	<div
-		v-if="cardData"
-		:class="['card-inner', !cardData.isNewCard ? 'isFilled' : '']"
+		:class="[
+			'row-card-inner',
+			!cardData.isNewCard ? 'card-filled' : 'card-empty',
+		]"
 	>
-		<a href="#" class="row-card-overlay"></a>
+		<div
+			class="row-card-overlay"
+			@click="
+				$emit('edit-card-details', {
+					rowIndex: cardData.rowIndex,
+					cardIndex: cardData.index,
+				})
+			"
+		></div>
 		<div class="details" v-if="!cardData.isNewCard">
 			<h3 class="row-card-title">{{ cardData.title }}</h3>
 			<h6 class="row-card-chart-type">{{ cardData.chartType }}</h6>
@@ -13,30 +23,20 @@
 			<i class="bi bi-plus-circle"></i>
 		</div>
 		<div class="delete-card">
-			<button
-				class="button delete-card-button"
-				@click="
-					deleteCardHandler({
-						rowId: cardData.rowId,
-						rowIndex: cardData.rowIndex,
-						cardIndex: cardData.cardIndex,
-					})
-				"
-			>
+			<button class="button delete-card-button" @click="deleteCardHandler">
 				<i class="bi bi-trash"></i>
 			</button>
 		</div>
 	</div>
-	<div v-else class="card-inner" style="display: none"></div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Button from "../UI/Buttons/Button.vue";
 export default {
 	data() {
 		return {
-			id: 0,
+			card: {},
 		};
 	},
 	name: "Card",
@@ -46,14 +46,23 @@ export default {
 	components: {
 		Button,
 	},
-	mounted() {
-		this.id = this.cardData.cardId;
-	},
+	mounted() {},
+	computed: { ...mapGetters(["getRow"]) },
 	methods: {
 		...mapActions(["deleteCard", "deleteRow"]),
-		deleteCardHandler(values) {
-			if (this.cardData.rowLength < 2) this.deleteRow(this.cardData.rowId);
-			else this.deleteCard(values);
+		deleteCardHandler(event) {
+			const row = this.getRow(this.cardData.rowId);
+
+			if (row.cards.length === 2)
+				this.deleteCard({
+					rowId: this.cardData.rowId,
+					rowIndex: this.cardData.rowIndex,
+					index: this.cardData.index,
+				});
+			else this.deleteRow(this.cardData.rowId);
+		},
+		editCardDetails() {
+			this.$emit("edit-card-details", this.cardData);
 		},
 	},
 };
@@ -61,13 +70,23 @@ export default {
 
 <style lang="scss">
 .row {
+	&-card-inner {
+		display: flex;
+		align-items: center;
+
+		height: 100%;
+		max-height: 6rem;
+
+		padding: 2rem 1rem;
+		cursor: pointer;
+	}
 	&-card-overlay {
 		position: absolute;
 		left: 0;
 		top: 0;
 		z-index: 2;
 
-		width: 100%;
+		width: 95%;
 		height: 100%;
 	}
 }
@@ -89,16 +108,19 @@ export default {
 }
 .delete-card {
 	position: absolute;
-	top: 1rem;
-	right: 1rem;
+	top: 0.2rem;
+	right: 0.2rem;
 	z-index: 10;
 
 	&-button {
-		background: none;
+		background: inherit;
 		border: none;
 
 		.bi {
 			font-size: 2.4rem;
+		}
+		&:hover {
+			background-color: var(--clr-red-100);
 		}
 	}
 }

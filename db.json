@@ -3,14 +3,36 @@
     {
       "cards": [
         {
-          "title": "",
-          "chartType": "",
+          "title": "Covid",
+          "chartType": "Bar Chart",
           "filters": [],
           "otherData": {},
-          "isNewCard": true
+          "isNewCard": false,
+          "cid": "e2eaf256-7bdb-49dc-9c90-4a70f210385f"
         }
       ],
       "id": 1
+    },
+    {
+      "cards": [
+        {
+          "title": "Overpopulation",
+          "chartType": "Area Graph",
+          "filters": [],
+          "otherData": {},
+          "isNewCard": false,
+          "cid": "9a698d31-107b-4384-b745-ff4444475b73"
+        },
+        {
+          "title": "Malaria",
+          "chartType": "Pie Chart",
+          "filters": [],
+          "otherData": {},
+          "isNewCard": false,
+          "cid": "d8bc2fa4-8e3d-4505-a6c1-6a61ad450351"
+        }
+      ],
+      "id": 2
     }
   ]
 }

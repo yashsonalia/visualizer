@@ -37,6 +37,7 @@ export default {
 			},
 			inputFields: {
 				dashboardID: {
+					value: "",
 					inputId: 2,
 					inputType: "text",
 					inputFor: "dashboardID",
@@ -45,6 +46,7 @@ export default {
 					hasPrefixedIcon: false,
 				},
 				dashboardHead: {
+					value: "",
 					inputId: 3,
 					inputType: "text",
 					inputFor: "dashboardHead",
@@ -53,6 +55,7 @@ export default {
 					hasPrefixedIcon: false,
 				},
 				filterAlignment: {
+					value: "",
 					inputId: 5,
 					inputType: "text",
 					inputFor: "filterAlignment",

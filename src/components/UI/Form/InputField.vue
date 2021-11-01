@@ -2,11 +2,12 @@
 	<div class="form-group">
 		<label :for="field.inputFor">{{ field.inputLabel }}</label>
 		<input
-			:type="field.inputType"
-			:class="['form-control', field.hasPrefixedIcon ? 'prefixed' : '']"
 			:id="field.inputFor"
-			aria-describedby=""
+			:type="field.inputType"
 			:placeholder="field.inputPlaceholder"
+			:class="['form-control', field.hasPrefixedIcon ? 'prefixed' : '']"
+			v-model="value"
+			@input="$emit('input-value-change', value)"
 		/>
 		<div :class="['prefixed-icon', field.hasPrefixedIcon ? 'show' : '']">
 			<i class="bi bi-search"></i>
@@ -18,15 +19,18 @@
 export default {
 	name: "InputField",
 	data() {
-		return {};
+		return {
+			value: "",
+		};
 	},
 	props: {
 		field: Object,
 	},
 	components: {},
 	methods: {},
+	created() {
+		this.value = this.field.value;
+	},
 };
 </script>
 
-<style lang="scss" scoped>
-</style>

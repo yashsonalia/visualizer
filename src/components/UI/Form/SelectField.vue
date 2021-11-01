@@ -6,6 +6,8 @@
 			:name="field.listFor"
 			:class="['form-control', field.hasPrefixedIcon ? 'prefixed' : '']"
 			:placeholder="field.inputPlaceholder"
+			v-model="value"
+			@change="$emit('select-value-change', value)"
 		/>
 		<datalist :id="field.listFor">
 			<option v-for="opt in field.options" :key="opt">{{ opt }}</option>
@@ -20,12 +22,17 @@
 export default {
 	name: "SelectField",
 	data() {
-		return {};
+		return {
+			value: "",
+		};
 	},
 	props: {
 		field: Object,
 	},
 	components: {},
 	methods: {},
+	created() {
+		this.value = this.field.value;
+	},
 };
 </script>
